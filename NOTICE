@@ -1,0 +1,11 @@
+Example sound:
+
+New Notification 017 by Universfield
+Source: https://pixabay.com/es/sound-effects/new-notification-017-352293/
+Search page: https://pixabay.com/sound-effects/search/notification/
+License: Pixabay Content License
+
+Users can replace the included sound with their own WAV or MP3 file by running:
+
+python install.py --sound path/to/sound.wav
+python install.py --sound path/to/sound.mp3
