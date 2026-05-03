@@ -1,38 +1,41 @@
 # codex-sound-notify
-Codex islem bitince veya onay beklediginde kendi sectiginiz sesi caldirir.
 
-## Seviye 1: Tek Dosya Ile Kurulum
+One-click sound notifications for Codex task completion and approval requests.
 
-Windows kullanicisi:
+[Turkce README](README.tr.md)
+
+## Level 1: One-Click Install
+
+Windows users:
 
 ```text
 Install-Windows.cmd
 ```
 
-Bu dosyaya cift tiklayin. Script once Python'un hazir olup olmadigini kontrol eder. Python yoksa otomatik kurulum teklif eder, sonra size ses dosyasi sorar. Bos birakirsaniz repo icindeki ornek Pixabay sesi kurulur. MP3 veya WAV dosyasi yolu verebilirsiniz.
+Double-click this file. The script first checks whether Python is ready. If Python is missing or too old, it offers to install it automatically, then asks for a sound file. Leave the sound path empty to use the included Pixabay example sound. You can also provide an MP3 or WAV file path.
 
-macOS kullanicisi:
+macOS users:
 
 ```text
 Install-macOS.command
 ```
 
-Linux kullanicisi:
+Linux users:
 
 ```text
 Install-Linux.sh
 ```
 
-## Script Ne Yapar?
+## What The Script Does
 
-- `~/.codex/codex-notify.py` dosyasini kurar.
-- Python hazir degilse kurulum icin yonlendirir veya otomatik kurulum teklif eder.
-- Sectiginiz sesi `~/.codex/music/codex-notify.*` olarak kopyalar.
-- `~/.codex/config.toml` dosyasini yedekler.
-- Codex config icine bitis bildirimi ve onay istegi hook ayarlarini ekler veya gunceller.
-- Kurulum sonunda sesi test eder.
+- Installs `~/.codex/codex-notify.py`.
+- Guides Python setup or offers automatic installation if Python is not ready.
+- Copies your selected sound to `~/.codex/music/codex-notify.*`.
+- Backs up `~/.codex/config.toml`.
+- Adds or updates Codex settings for task-complete notifications and approval-request hooks.
+- Tests sound playback after installation.
 
-Windows icin olusan config su sekildedir:
+On Windows, the generated config looks like this:
 
 ```toml
 notify = ["pythonw.exe", "C:\\Users\\<user>\\.codex\\codex-notify.py"]
@@ -50,7 +53,7 @@ command = "pythonw.exe C:\\Users\\<user>\\.codex\\codex-notify.py approval"
 timeout = 5
 ```
 
-## Seviye 2: Manuel Kullanim
+## Level 2: Manual Usage
 
 ```powershell
 python app\install.py --sound C:\path\to\notification.mp3
@@ -63,16 +66,16 @@ Test:
 python app\codex-notify.py --test --sound app\music\universfield-new-notification-017-352293.wav
 ```
 
-## Ses Destegi
+## Audio Support
 
-- Windows: MP3, WAV, AIFF, M4A. Ek paket gerekmez.
-- macOS: `afplay` tarafindan desteklenen formatlar.
-- Linux: WAV icin `paplay` veya `aplay`; MP3 icin `ffplay`, `mpv`, `cvlc` veya `mpg123`.
+- Windows: MP3, WAV, AIFF, M4A. No extra package required.
+- macOS: formats supported by `afplay`.
+- Linux: `paplay` or `aplay` for WAV; `ffplay`, `mpv`, `cvlc`, or `mpg123` for MP3.
 
-## Ornek Ses
+## Example Sound
 
-Ornek ses Pixabay uzerinden alinmistir: `New Notification 017` by Universfield.
+The included example sound is `New Notification 017` by Universfield from Pixabay.
 
-Pixabay notification aramasi: https://pixabay.com/sound-effects/search/notification/
+Pixabay notification search: https://pixabay.com/sound-effects/search/notification/
 
-Varlik sayfasi: https://pixabay.com/es/sound-effects/new-notification-017-352293/
+Asset page: https://pixabay.com/es/sound-effects/new-notification-017-352293/
