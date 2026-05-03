@@ -34,6 +34,7 @@ Install-Linux.sh
 - Backs up `~/.codex/config.toml`.
 - Adds or updates Codex settings for task-complete notifications and approval-request hooks.
 - Tests sound playback after installation.
+- Writes the Python launcher as a PATH-resolved command, not as a machine-specific absolute path.
 
 On Windows, the generated config looks like this:
 

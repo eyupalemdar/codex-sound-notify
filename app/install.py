@@ -37,7 +37,7 @@ def python_command_for_notify(installed_script: Path) -> list[str]:
     if platform.system().lower() == "windows":
         return ["pythonw.exe", str(installed_script)]
 
-    return [sys.executable, str(installed_script)]
+    return ["python3", str(installed_script)]
 
 
 def shell_command_for_hook(command: list[str], mode: str) -> str:

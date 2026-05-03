@@ -34,6 +34,7 @@ Install-Linux.sh
 - `~/.codex/config.toml` dosyasını yedekler.
 - Codex config içine işlem bitiş bildirimi ve onay isteği hook ayarlarını ekler veya günceller.
 - Kurulum sonunda sesi test eder.
+- Python başlatıcısını makineye özel tam yol olarak değil, PATH üzerinden çözülen komut olarak yazar.
 
 Windows için oluşan config şu şekildedir:
 
