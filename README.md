@@ -1,5 +1,4 @@
 # codex-sound-notify
-
 Codex islem bitince veya onay beklediginde kendi sectiginiz sesi caldirir.
 
 ## Seviye 1: Tek Dosya Ile Kurulum
