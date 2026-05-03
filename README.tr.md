@@ -12,7 +12,7 @@ Windows kullanıcıları:
 Install-Windows.cmd
 ```
 
-Bu dosyaya çift tıklayın. Script önce Python'un hazır olup olmadığını kontrol eder. Python yoksa veya sürümü eskiyse otomatik kurulum teklif eder, sonra size ses dosyası sorar. Boş bırakırsanız repo içindeki örnek Pixabay sesi kurulur. MP3 veya WAV dosyası yolu verebilirsiniz.
+Bu dosyaya çift tıklayın. Script önce Python'un hazır olup olmadığını kontrol eder. Python yoksa veya sürümü eskiyse otomatik kurulum teklif eder, sonra işlem sonu ve onay isteği ses dosyalarını sorar. Boş bırakırsanız repo içindeki örnek Pixabay sesi kullanılır. MP3 veya WAV dosyası yolu verebilirsiniz.
 
 macOS kullanıcıları:
 
@@ -28,18 +28,24 @@ Install-Linux.sh
 
 ## Script Ne Yapar?
 
-- `~/.codex/codex-notify.py` dosyasını kurar.
+- Codex home klasörünü `CODEX_HOME`, mevcut `config.toml` veya platform kullanıcı home bilgisi üzerinden bulur.
+- `codex-notify.py` dosyasını bulunan Codex home klasörüne kurar.
 - Python hazır değilse kurulum için yönlendirir veya otomatik kurulum teklif eder.
-- Seçtiğiniz sesi `~/.codex/music/codex-notify.*` olarak kopyalar.
-- `~/.codex/config.toml` dosyasını yedekler.
+- Seçtiğiniz sesleri `<codex-home>/music/codex-notify-done.*` ve `<codex-home>/music/codex-notify-approval.*` olarak kopyalar.
+- `<codex-home>/config.toml` dosyasını yedekler.
 - Codex config içine işlem bitiş bildirimi ve onay isteği hook ayarlarını ekler veya günceller.
 - Kurulum sonunda sesi test eder.
-- Python başlatıcısını makineye özel tam yol olarak değil, PATH üzerinden çözülen komut olarak yazar.
+- Kurulu script yolunu ve Python başlatıcısını bulunan hedefe göre yazar; makineye özel sabit Python yolu kullanmaz.
 
-Windows için oluşan config şu şekildedir:
+Oluşan config, mevcut platformda PATH içinde bulunan ilk uygun komutu kullanır:
+
+- Windows: `pyw.exe -3`, `pythonw.exe`, `py.exe -3`, sonra `python.exe`
+- macOS/Linux: `python3`, sonra `python`
+
+Windows için oluşan config şu şekilde olabilir:
 
 ```toml
-notify = ["pythonw.exe", "C:\\Users\\<user>\\.codex\\codex-notify.py"]
+notify = ["pyw.exe", "-3", "C:\\Users\\<user>\\.codex\\codex-notify.py"]
 
 [tui]
 notifications = false
@@ -50,7 +56,25 @@ codex_hooks = true
 [[hooks.PermissionRequest]]
 [[hooks.PermissionRequest.hooks]]
 type = "command"
-command = "pythonw.exe C:\\Users\\<user>\\.codex\\codex-notify.py approval"
+command = "pyw.exe -3 C:\\Users\\<user>\\.codex\\codex-notify.py approval"
+timeout = 5
+```
+
+macOS/Linux için şu şekilde olabilir:
+
+```toml
+notify = ["python3", "/Users/<user>/.codex/codex-notify.py"]
+
+[tui]
+notifications = false
+
+[features]
+codex_hooks = true
+
+[[hooks.PermissionRequest]]
+[[hooks.PermissionRequest.hooks]]
+type = "command"
+command = "python3 /Users/<user>/.codex/codex-notify.py approval"
 timeout = 5
 ```
 
@@ -58,13 +82,15 @@ timeout = 5
 
 ```powershell
 python app\install.py --sound C:\path\to\notification.mp3
-python app\install.py --sound C:\path\to\notification.wav
+python app\install.py --done-sound C:\path\to\done.wav --approval-sound C:\path\to\approval.wav
+python app\install.py --codex-home C:\Users\you\.codex
 ```
 
 Test:
 
 ```powershell
-python app\codex-notify.py --test --sound app\music\universfield-new-notification-017-352293.wav
+python app\codex-notify.py done --test --sound app\music\universfield-new-notification-017-352293.wav
+python app\codex-notify.py approval --test --sound app\music\universfield-new-notification-017-352293.wav
 ```
 
 ## Ses Desteği
