@@ -4,6 +4,8 @@ Codex işlem bitince veya onay beklediğinde kendi seçtiğiniz sesi çaldırır
 
 [English README](README.md)
 
+[Changelog](CHANGELOG.md)
+
 ## Seviye 1: Tek Dosya İle Kurulum
 
 Windows kullanıcıları:
@@ -34,6 +36,8 @@ Install-Linux.sh
 - Seçtiğiniz sesleri `<codex-home>/music/codex-notify-done.*` ve `<codex-home>/music/codex-notify-approval.*` olarak kopyalar.
 - `<codex-home>/config.toml` dosyasını yedekler.
 - Codex config içine işlem bitiş bildirimi ve onay isteği hook ayarlarını ekler veya günceller.
+- Kurulu Codex sürümündeki hook feature anahtarını algılar (`hooks` Codex 0.129+ için, `codex_hooks` eski 0.128 dönemi sürümler için).
+- Kurulum metinlerini varsayılan olarak İngilizce kullanır; yalnızca Türkçe locale algılanırsa Türkçe açılır.
 - Kurulum sonunda sesi test eder.
 - Kurulu script yolunu ve Python başlatıcısını bulunan hedefe göre yazar; makineye özel sabit Python yolu kullanmaz.
 
@@ -51,7 +55,7 @@ notify = ["pyw.exe", "-3", "C:\\Users\\<user>\\.codex\\codex-notify.py"]
 notifications = false
 
 [features]
-codex_hooks = true
+hooks = true
 
 [[hooks.PermissionRequest]]
 [[hooks.PermissionRequest.hooks]]
@@ -69,7 +73,7 @@ notify = ["python3", "/Users/<user>/.codex/codex-notify.py"]
 notifications = false
 
 [features]
-codex_hooks = true
+hooks = true
 
 [[hooks.PermissionRequest]]
 [[hooks.PermissionRequest.hooks]]
@@ -78,13 +82,21 @@ command = "python3 /Users/<user>/.codex/codex-notify.py approval"
 timeout = 5
 ```
 
+Eski Codex sürümleri bunun yerine `codex_hooks = true` kullanır. Installer kurulu CLI'yi otomatik algılar ve Codex 0.128 üzerinde kurulmuş sistemler 0.129'a geçince eski anahtarı temizleyerek sorunsuz günceller.
+
+Codex 0.129+ yeni kurulan hook'ları bir kez incelemenizi isteyebilir. Codex `1 hook needs review before it can run` derse Codex içinde `/hooks` açıp `codex-notify.py` komutunu onaylayın.
+
 ## Seviye 2: Manuel Kullanım
 
 ```powershell
 python app\install.py --sound C:\path\to\notification.mp3
 python app\install.py --done-sound C:\path\to\done.wav --approval-sound C:\path\to\approval.wav
 python app\install.py --codex-home C:\Users\you\.codex
+python app\install.py --hooks-feature-key codex_hooks
+python app\install.py --language en
 ```
+
+Dil seçimi varsayılan olarak `auto` çalışır. Auto, OS veya environment locale değeri `tr` ile başlıyorsa Türkçe; diğer tüm locale değerlerinde İngilizce kullanır. Dili `--language en`, `--language tr` veya `CODEX_NOTIFY_LANG=en` ile elle sabitleyebilirsiniz.
 
 Test:
 

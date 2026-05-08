@@ -4,6 +4,8 @@ One-click sound notifications for Codex task completion and approval requests.
 
 [Turkce README](README.tr.md)
 
+[Changelog](CHANGELOG.md)
+
 ## Level 1: One-Click Install
 
 Windows users:
@@ -31,9 +33,11 @@ Install-Linux.sh
 - Finds the Codex home directory from `CODEX_HOME`, an existing `config.toml`, or the platform user home.
 - Installs `codex-notify.py` into that Codex home directory.
 - Guides Python setup or offers automatic installation if Python is not ready.
+- Uses English installer text by default, and switches to Turkish only for Turkish locales.
 - Copies your selected sounds to `<codex-home>/music/codex-notify-done.*` and `<codex-home>/music/codex-notify-approval.*`.
 - Backs up `<codex-home>/config.toml`.
 - Adds or updates Codex settings for task-complete notifications and approval-request hooks.
+- Detects the installed Codex hooks feature flag (`hooks` on Codex 0.129+, `codex_hooks` on older 0.128-era builds).
 - Tests sound playback after installation.
 - Writes the installed script path and Python launcher from the detected target, not from a hard-coded machine path.
 
@@ -51,7 +55,7 @@ notify = ["pyw.exe", "-3", "C:\\Users\\<user>\\.codex\\codex-notify.py"]
 notifications = false
 
 [features]
-codex_hooks = true
+hooks = true
 
 [[hooks.PermissionRequest]]
 [[hooks.PermissionRequest.hooks]]
@@ -69,7 +73,7 @@ notify = ["python3", "/Users/<user>/.codex/codex-notify.py"]
 notifications = false
 
 [features]
-codex_hooks = true
+hooks = true
 
 [[hooks.PermissionRequest]]
 [[hooks.PermissionRequest.hooks]]
@@ -78,13 +82,21 @@ command = "python3 /Users/<user>/.codex/codex-notify.py approval"
 timeout = 5
 ```
 
+Older Codex builds use `codex_hooks = true` instead. The installer auto-detects the installed CLI and removes the stale feature key so systems previously installed on Codex 0.128 update cleanly after moving to 0.129.
+
+Codex 0.129+ may also require reviewing newly installed hooks once. If Codex prints `1 hook needs review before it can run`, open `/hooks` inside Codex and approve the `codex-notify.py` command.
+
 ## Level 2: Manual Usage
 
 ```powershell
 python app\install.py --sound C:\path\to\notification.mp3
 python app\install.py --done-sound C:\path\to\done.wav --approval-sound C:\path\to\approval.wav
 python app\install.py --codex-home C:\Users\you\.codex
+python app\install.py --hooks-feature-key codex_hooks
+python app\install.py --language en
 ```
+
+Language selection defaults to `auto`. Auto uses Turkish only when the OS or environment locale starts with `tr`; every other locale uses English. You can force a language with `--language en`, `--language tr`, or `CODEX_NOTIFY_LANG=en`.
 
 Test:
 
